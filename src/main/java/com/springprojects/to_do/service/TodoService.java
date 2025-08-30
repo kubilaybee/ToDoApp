@@ -1,10 +1,11 @@
 package com.springprojects.to_do.service;
 
+import com.springprojects.to_do.exception.types.DataNotFoundException;
+import com.springprojects.to_do.exception.types.PermissionException;
 import com.springprojects.to_do.model.Todo;
 import com.springprojects.to_do.repository.TodoRepository;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,10 +17,10 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public Todo addTodo(Todo todo, String loggedInUsername) {
+    public Todo addTodo(Todo todo, String loggedInUsername) throws Exception {
         if (!todo.getUsername().equalsIgnoreCase(loggedInUsername)) {
             String errorMessage = "Permission Denied: User " + loggedInUsername + " cannot add a todo for user " + todo.getUsername() + ".";
-            throw new PermissionDeniedDataAccessException(errorMessage, null);
+            throw new PermissionException(loggedInUsername, "TodoService", loggedInUsername);
         }
         return todoRepository.saveAndFlush(todo);
     }
@@ -28,29 +29,27 @@ public class TodoService {
         return todoRepository.findByUsername(username);
     }
 
-    public Optional<Todo> findById(int id, String loggedInUsername) {
+    public Optional<Todo> findById(int id, String loggedInUsername) throws Exception {
         Optional<Todo> todo = todoRepository.findById(id);
         if (todo.isEmpty()) {
-            throw new IllegalArgumentException("Todo with ID " + id + " not found.");
+            throw new DataNotFoundException(loggedInUsername, "TodoService", id + "");
         }
         if (!todo.get().getUsername().equalsIgnoreCase(loggedInUsername)) {
-            String errorMessage = "Permission Denied !";
-            throw new PermissionDeniedDataAccessException(errorMessage, null);
+            throw new PermissionException(loggedInUsername, "TodoService", loggedInUsername);
         }
         return todo;
     }
 
-    public Todo updateTodo(Todo updateTodo, String loggedInUsername) {
+    public Todo updateTodo(Todo updateTodo, String loggedInUsername) throws Exception {
         Optional<Todo> optionalTodo = todoRepository.findById(updateTodo.getId());
 
         if (optionalTodo.isEmpty()) {
-            throw new IllegalArgumentException("Todo with ID " + updateTodo.getId() + " not found.");
+            throw new DataNotFoundException(updateTodo.getId() + "", "TodoService", updateTodo.getId() + "");
         }
 
         Todo existingTodo = optionalTodo.get();
         if (!existingTodo.getUsername().equalsIgnoreCase(loggedInUsername)) {
-            String errorMessage = "Permission Denied: User " + loggedInUsername + " is not authorized to update this todo.";
-            throw new PermissionDeniedDataAccessException(errorMessage, null);
+            throw new PermissionException(loggedInUsername, "TodoService", loggedInUsername);
         }
 
         existingTodo.setDescription(updateTodo.getDescription());
@@ -60,17 +59,16 @@ public class TodoService {
         return todoRepository.saveAndFlush(existingTodo);
     }
 
-    public void deleteById(int id, String loggedInUsername) {
+    public void deleteById(int id, String loggedInUsername) throws Exception {
         Optional<Todo> optionalTodo = todoRepository.findById(id);
 
         if (optionalTodo.isEmpty()) {
-            throw new IllegalArgumentException("Todo with ID " + id + " not found.");
+            throw new DataNotFoundException(id + "", "TodoService", id + "");
         }
 
         Todo todoToDelete = optionalTodo.get();
         if (!todoToDelete.getUsername().equalsIgnoreCase(loggedInUsername)) {
-            String errorMessage = "Permission Denied: User " + loggedInUsername + " is not authorized to delete this todo.";
-            throw new PermissionDeniedDataAccessException(errorMessage, null);
+            throw new PermissionException(loggedInUsername, "TodoService", loggedInUsername);
         }
 
         todoRepository.deleteById(id);
