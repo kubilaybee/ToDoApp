@@ -1,59 +1,48 @@
-ToDoApp
-Overview
-Welcome to the ToDoApp! This is a simple, yet robust, web application for managing your to-do list. The application
-follows a modern API-first approach, built with a RESTful architecture that ensures a clear separation of concerns
-between the backend and frontend.
+### What Can I Learn From This Project? 
+Working on this project will give you practical experience and knowledge in the following core areas:
 
-The backend is developed with Spring Boot, leveraging its powerful features to create a scalable and maintainable API.
-It handles all the business logic, including user management, task creation, updates, and deletion. All data is
-persisted to an in-memory H2 database for a lightweight and easy-to-run setup, perfect for development and demonstration
-purposes.
+`Spring Boot Fundamentals:` Learn how to quickly and easily create a web application using the Spring framework.
 
-Key Features
-RESTful API: A well-designed and documented API for managing to-do items.
+`RESTful API Development:` Understand how to build API endpoints that manage resources using HTTP methods (GET, POST, PUT, DELETE).
 
-Authentication & Authorization: Secure user authentication using Spring Security with HTTP Basic Authentication.
+`Centralized Exception Handling:` Learn how to manage application-wide errors (e.g., data not found or permission errors) from a single location, providing users with meaningful and consistent error messages.
 
-Data Validation: All incoming data is validated using Jakarta Bean Validation to ensure data integrity.
+`Layered Architecture:` Grasp how to structure a project into distinct layers like Controller, Service, and Repository, and understand the responsibilities of each.
 
-Error Handling: A centralized @ControllerAdvice handles all exceptions, providing clear and meaningful error messages to
-the client.
+`Dependency Injection:` Master one of Spring's most powerful features, Dependency Injection (DI), to manage dependencies between your classes.
 
-In-Memory Database: Uses H2 database for a quick and easy setup without the need for an external database.
+### Key Technologies and Structures
+The following essential technologies and Java structures form the foundation of this project.
 
-CRUD Operations: Full functionality to Create, Read, Update, and Delete to-do items.
+`Java 17:` The core programming language for the project.
 
-Technologies Used
-Spring Boot: The core framework for building the application.
+`Maven:` Used for managing project dependencies and building the application.
 
-Spring Security: Handles all authentication and authorization logic.
+`Spring Boot:` A framework that simplifies the creation of stand-alone, production-grade Spring-based applications.
 
-Spring Data JPA & Hibernate: Provides a powerful and simple way to interact with the database.
+`Spring Web`: A module used for building web and RESTful APIs.
 
-H2 Database: A fast, in-memory relational database.
+`Spring Data JPA:` Simplifies database operations and reduces boilerplate code.
 
-Lombok: Reduces boilerplate code in entity classes.
+`Spring Security:` Adds a security layer to the application, handling both Authentication and Authorization.
 
-Jakarta Validation: Ensures data integrity by validating incoming requests.
+`H2 Database:` An in-memory database used for development and testing. It allows you to run the application without needing a separate database server.
 
-Maven: Manages project dependencies and the build process.
+### Important Annotations and Their Purposes
+Here are some of the key annotations used in the project that demonstrate the power of Spring:
 
-Getting Started
-Prerequisites
-Java 17 or higher
+`@RestController:` Marks a class as a REST API controller, indicating that its methods will return data in formats like JSON or XML.
 
-Maven
+`@Service:` Indicates that a class contains the business logic. Spring scans for these classes to manage them as components.
 
-API Endpoints
-The API is secured with HTTP Basic Authentication. Use the following credentials to access the endpoints:
+`@Repository:` Designates a class responsible for interacting with the database. Spring Data JPA automatically creates repository implementations for interfaces marked with this annotation.
 
-Username: admin
+`@ControllerAdvice:` Used for centralized exception handling across the entire application. It allows you to catch and process exceptions from all controllers in one place.
 
-Password: admin
+`@ExceptionHandler:` Used within an @ControllerAdvice class to catch and handle a specific type of exception. For example, it's used to return a custom response when a DataNotFoundException occurs.
 
-HTTP Method Endpoint Description
-POST /todos Creates a new to-do item.
-GET /todos Retrieves all to-do items for a user.
-GET /todos/{id} Retrieves a single to-do item by ID.
-PUT /todos Updates an existing to-do item.
-DELETE /todos/{id} Deletes a to-do item by ID.
+`@Autowired:` Tells Spring to automatically inject an object (a dependency) into a class.
+
+`@RequestBody:` Binds the body of an HTTP request to a Java object.
+
+`@PathVariable:` Maps a dynamic value from the URL (e.g., the {id} in /todos/{id}) to a method parameter.
