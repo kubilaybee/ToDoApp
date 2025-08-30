@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/login")
@@ -20,11 +19,9 @@ public class LoginController extends BaseController {
     }
 
     @GetMapping
-    public ResponseEntity<String> login(@RequestParam String username,
-                                        @RequestParam String password,
-                                        ModelMap modelMap) {
+    public ResponseEntity<String> login(ModelMap modelMap) {
 
-        modelMap.put("username", username);
+        modelMap.put("username", getLoggedInUsername());
         String response = "Welcome " + getLoggedInUsername() + " !";
         return new ResponseEntity<>(response, OK);
     }

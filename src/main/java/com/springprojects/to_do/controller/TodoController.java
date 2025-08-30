@@ -29,13 +29,13 @@ public class TodoController extends BaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo todo) {
+    public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo todo) throws Exception {
         Todo newTodo = todoService.addTodo(todo, getLoggedInUsername());
         return new ResponseEntity<>(newTodo, CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Todo> updateTodo(@Valid @RequestBody Todo todo) {
+    public ResponseEntity<Todo> updateTodo(@Valid @RequestBody Todo todo) throws Exception {
         Todo updatedTodo = todoService.updateTodo(todo, getLoggedInUsername());
         return new ResponseEntity<>(updatedTodo, OK);
     }
@@ -47,7 +47,7 @@ public class TodoController extends BaseController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Todo> findById(@PathVariable int id) {
+    public ResponseEntity<Todo> findById(@PathVariable int id) throws Exception {
         Optional<Todo> todo = todoService.findById(id, getLoggedInUsername());
 
         return todo.map(value -> new ResponseEntity<>(value, OK))
@@ -55,7 +55,7 @@ public class TodoController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable int id) {
+    public ResponseEntity<Void> deleteById(@PathVariable int id) throws Exception {
         todoService.deleteById(id, getLoggedInUsername());
         return new ResponseEntity<>(OK);
     }
